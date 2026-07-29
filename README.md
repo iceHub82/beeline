@@ -15,11 +15,11 @@ Neither addresses where the tokens actually go. In a working session, assistant 
 ## Install
 
 ```
-/plugin marketplace add C:\AgenticRepos\beeline
+/plugin marketplace add iceHub82/beeline
 /plugin install beeline
 ```
 
-Once published to GitHub, `/plugin marketplace add <owner>/beeline` works instead.
+From a local clone instead: `/plugin marketplace add C:\AgenticRepos\beeline`
 
 Then:
 
