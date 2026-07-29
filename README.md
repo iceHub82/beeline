@@ -22,9 +22,16 @@ Neither addresses where the tokens actually go. In a working session, assistant 
 | i-have-adhd | −57% |
 | **beeline** | **−63%** |
 
-Then the same responses were scored blind by a second model, and that is where the story changes. On prose, beeline is at or near the top of every quality column. **On tool-shaped prompts it is last in three of four** — least complete of any arm including plain baseline, and the most likely to need a follow-up before you can act. Asked when a TLS certificate expires, it replied `What's your domain?` in eight tokens while a rival spent 84 and gave the working `openssl` command.
+The same responses were then scored blind by a second model, which is the number worth caring about — a skill that saves tokens by saying nothing would win the table above.
 
-Its tool savings are partly bought by not answering. That is a known defect, not a footnote — the numbers, the verbatim responses, and the diagnosis are in **[BENCHMARKS.md](BENCHMARKS.md)**, which you should read before quoting the table above.
+| tools set | answered | actionable | complete | readable |
+|---|---:|---:|---:|---:|
+| baseline | 4.63 | 4.60 | **4.77** | 3.83 |
+| caveman | 4.53 | 4.57 | 4.13 | 4.50 |
+| i-have-adhd | 4.43 | 4.53 | 3.90 | **5.00** |
+| **beeline** | **4.67** | **4.73** | 4.00 | 4.97 |
+
+That scoring caught a real defect first time round: beeline was last in three of four columns, answering *"What's your domain?"* in eight tokens when asked how to check a TLS certificate's expiry. One rule change — answer with a placeholder, then ask — moved answered 3.97 → 4.67 and follow-up rate 27% → 17% for two points of token saving. The before, after, control arms and the residual weakness (completeness, still below baseline) are in **[BENCHMARKS.md](BENCHMARKS.md)**.
 
 Also worth knowing: counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls, and no arm actually called a tool.
 

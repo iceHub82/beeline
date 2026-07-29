@@ -77,7 +77,7 @@ The rubric states outright that brevity is not a virtue in itself and neither is
 | i-have-adhd | 4.97 | 4.97 | 4.67 | **5.00** | 0% |
 | **beeline** | **5.00** | 4.97 | 4.57 | 4.97 | 0% |
 
-**Tools — beeline is last in three of four columns:**
+**Tools — beeline was last in three of four columns.** This is the run that found the defect, before the fix in section 5:
 
 | arm | answered | actionable | complete | readable | needs follow-up |
 |---|---:|---:|---:|---:|---:|
@@ -86,7 +86,7 @@ The rubric states outright that brevity is not a virtue in itself and neither is
 | i-have-adhd | 4.37 | 4.47 | 3.90 | **4.97** | 23% |
 | beeline | 3.97 | 3.97 | **3.20** | 4.70 | **27%** |
 
-Beeline is the *most readable* compressed arm and the *least complete* arm in the benchmark. It saves the most tokens on tool work and answers the question least often. Those are the same fact.
+Beeline was the *most readable* compressed arm and the *least complete* arm in the benchmark. It saved the most tokens on tool work and answered the question least often. Those were the same fact.
 
 Two verbatim examples, both real responses to the tool prompts:
 
@@ -100,7 +100,37 @@ Two verbatim examples, both real responses to the tool prompts:
 
 The second is arguably over-answering. The first is simply not answering — a placeholder domain costs nine tokens and turns a 27% follow-up rate into zero.
 
-**Diagnosis.** Beeline's "real ambiguity — one short clarifying question beats guessing" override fires too easily on tool-shaped prompts, where its tool-discipline rules already push toward a bare command. The two compose into "ask instead of answer." The prose rules are not implicated: prose scores are the best in the benchmark.
+**Diagnosis.** Beeline's "real ambiguity — one short clarifying question beats guessing" override fired too easily on tool-shaped prompts, where its tool-discipline rules already push toward a bare command. The two composed into "ask instead of answer." The prose rules were not implicated: prose scores are the best in the benchmark.
+
+## 5. The fix, and re-measurement
+
+The override now requires answering *and* asking when the request is actionable — a placeholder in the unknown slot, question after — and the pre-send check gained a matching gate: before any reply that is only a question, ship the command with a placeholder and keep the question.
+
+The tools set was then re-run in full: 120 fresh calls, 30 fresh judging calls, same prompts, same model, same seed.
+
+| tools set | before | after |
+|---|---:|---:|
+| answered | 3.97 | **4.67** |
+| actionable | 3.97 | **4.73** |
+| complete | 3.20 | **4.00** |
+| readable | 4.70 | **4.97** |
+| needs follow-up | 27% | **17%** |
+| output tokens saved | −76% | −74% |
+
+Beeline goes from last in three of four columns to **first in answered and actionable**, ahead of plain baseline on both. The cost is two percentage points of token saving — nine tokens per response — because the fix only fires on prompts where a question was standing in for an answer.
+
+`cert-expiry` went from 8 tokens (*"What's your domain?"*) to 83, matching the arm that scored 5.00 on it. `disk-full` went from 24 tokens to ~190 without being named anywhere in the rule, which is the evidence that the fix generalised rather than memorising the one case.
+
+**The unchanged arms are the control.** Across two independent runs and two independent judging passes:
+
+| control arm | answered | actionable |
+|---|---:|---:|
+| baseline | 4.63 → 4.63 | 4.60 → 4.60 |
+| caveman | 4.53 → 4.53 | 4.57 → 4.57 |
+
+Three untouched skills reproducing to within 0.1 means the judge is stable, so beeline's +0.70 and +0.76 are the intervention, not run-to-run drift.
+
+**What did not get fixed:** completeness is still beeline's weakest axis at 4.00, below plain baseline's 4.77. It is now tied with caveman (4.13) rather than last, but the residual gap is real. Compression costs some substance; the fix narrowed that, it did not eliminate it.
 
 ## What this does not show
 
