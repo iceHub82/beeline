@@ -14,17 +14,19 @@ Neither addresses where the tokens actually go. In a working session, assistant 
 
 ## Measured
 
-Against caveman's own benchmark plus a tool-shaped prompt set, on `claude-sonnet-4.5`, with the system prompt cached as it is in a real session:
+240 calls against caveman's own benchmark plus a tool-shaped prompt set, on `claude-sonnet-4.5`, with the system prompt cached as it is in a real session. n=30 per cell.
 
 | arm | output tokens saved |
 |---|---:|
-| caveman | −55% |
+| caveman | −58% |
 | i-have-adhd | −57% |
 | **beeline** | **−63%** |
 
-The margin comes from tool-shaped work (−76% vs caveman's −66%) — the category a prose-only benchmark can't see.
+Then the same responses were scored blind by a second model, and that is where the story changes. On prose, beeline is at or near the top of every quality column. **On tool-shaped prompts it is last in three of four** — least complete of any arm including plain baseline, and the most likely to need a follow-up before you can act. Asked when a TLS certificate expires, it replied `What's your domain?` in eight tokens while a rival spent 84 and gave the working `openssl` command.
 
-**Read [BENCHMARKS.md](BENCHMARKS.md) before quoting that number.** Counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls. n=10 per cell, one run, and no arm actually called a tool.
+Its tool savings are partly bought by not answering. That is a known defect, not a footnote — the numbers, the verbatim responses, and the diagnosis are in **[BENCHMARKS.md](BENCHMARKS.md)**, which you should read before quoting the table above.
+
+Also worth knowing: counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls, and no arm actually called a tool.
 
 ## Install
 
