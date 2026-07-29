@@ -5,14 +5,25 @@ const path = require('node:path');
 
 const ROOT = path.join(__dirname, '..');
 
+// Reads YAML frontmatter, including folded scalars (`description: >` followed by
+// indented continuation lines). A naive line-by-line parser reports a 1-character
+// description for every skill here and fails for the wrong reason.
 function readFrontmatter(relPath) {
   const raw = fs.readFileSync(path.join(ROOT, relPath), 'utf8');
   const m = raw.match(/^---\n([\s\S]*?)\n---/);
   assert.ok(m, `${relPath} has no frontmatter block`);
+  const lines = m[1].split('\n');
   const fields = {};
-  for (const line of m[1].split('\n')) {
-    const kv = line.match(/^([a-zA-Z-]+):\s*(.*)$/);
-    if (kv) fields[kv[1]] = kv[2].trim();
+  for (let i = 0; i < lines.length; i++) {
+    const kv = lines[i].match(/^([a-zA-Z-]+):[ \t]*(.*)$/);
+    if (!kv) continue;
+    let value = kv[2].trim();
+    if (value === '>' || value === '>-' || value === '|' || value === '|-') value = '';
+    for (let j = i + 1; j < lines.length && !/^[a-zA-Z-]+:/.test(lines[j]); j++) {
+      value += (value ? ' ' : '') + lines[j].trim();
+      i = j;
+    }
+    fields[kv[1]] = value.trim();
   }
   return { fields, body: raw.slice(m[0].length) };
 }

@@ -28,10 +28,16 @@ describe('beeline rules', () => {
   });
 
   it('states the precedence order', () => {
+    // Scope to the Precedence section. Searching the whole document fails by
+    // construction: "Structure" first appears as the ### Structure rule-group
+    // heading, which necessarily precedes ## Precedence.
+    const start = SKILL.indexOf('## Precedence');
+    assert.ok(start > -1, 'no ## Precedence section');
+    const section = SKILL.slice(start, SKILL.indexOf('## Levels'));
     const order = ['Safety', 'Harness', 'The answer itself', 'Structure', 'Prose compression'];
     let cursor = -1;
     for (const item of order) {
-      const at = SKILL.indexOf(item);
+      const at = section.indexOf(item);
       assert.ok(at > cursor, `${item} out of order or missing in Precedence`);
       cursor = at;
     }
