@@ -1,0 +1,149 @@
+{
+ "model": "anthropic/claude-sonnet-4.5",
+ "records": [
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 659,
+   "prompt_tokens": 36,
+   "chars": 2179
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 215,
+   "prompt_tokens": 1319,
+   "chars": 671
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 281,
+   "prompt_tokens": 1764,
+   "chars": 982
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 200,
+   "prompt_tokens": 1704,
+   "chars": 688
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 486,
+   "prompt_tokens": 45,
+   "chars": 1625
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 185,
+   "prompt_tokens": 1328,
+   "chars": 540
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 182,
+   "prompt_tokens": 1773,
+   "chars": 608
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 114,
+   "prompt_tokens": 1713,
+   "chars": 355
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 389,
+   "prompt_tokens": 36,
+   "chars": 1255
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 176,
+   "prompt_tokens": 1319,
+   "chars": 626
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 393,
+   "prompt_tokens": 1764,
+   "chars": 1449
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 350,
+   "prompt_tokens": 1704,
+   "chars": 1262
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 314,
+   "prompt_tokens": 35,
+   "chars": 935
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 164,
+   "prompt_tokens": 1318,
+   "chars": 439
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 53,
+   "prompt_tokens": 1763,
+   "chars": 159
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 104,
+   "prompt_tokens": 1703,
+   "chars": 329
+  }
+ ]
+}

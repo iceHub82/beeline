@@ -12,6 +12,20 @@ Merges the structural rules of [`i-have-adhd`](https://github.com/ayghri/i-have-
 
 Neither addresses where the tokens actually go. In a working session, assistant prose is a minority of the total — tool results dominate.
 
+## Measured
+
+Against caveman's own benchmark plus a tool-shaped prompt set, on `claude-sonnet-4.5`, with the system prompt cached as it is in a real session:
+
+| arm | output tokens saved |
+|---|---:|
+| caveman | −55% |
+| i-have-adhd | −57% |
+| **beeline** | **−63%** |
+
+The margin comes from tool-shaped work (−76% vs caveman's −66%) — the category a prose-only benchmark can't see.
+
+**Read [BENCHMARKS.md](BENCHMARKS.md) before quoting that number.** Counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls. n=10 per cell, one run, and no arm actually called a tool.
+
 ## Install
 
 ```

@@ -1,0 +1,725 @@
+{
+ "model": "anthropic/claude-sonnet-4.5",
+ "records": [
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 666,
+   "prompt_tokens": 36,
+   "chars": 2208
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 243,
+   "prompt_tokens": 1319,
+   "chars": 799
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 255,
+   "prompt_tokens": 1764,
+   "chars": 901
+  },
+  {
+   "set": "prose",
+   "prompt_id": "react-rerender",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 203,
+   "prompt_tokens": 1704,
+   "chars": 704
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 418,
+   "prompt_tokens": 45,
+   "chars": 1404
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 169,
+   "prompt_tokens": 1328,
+   "chars": 456
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 182,
+   "prompt_tokens": 1773,
+   "chars": 608
+  },
+  {
+   "set": "prose",
+   "prompt_id": "auth-middleware-fix",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 114,
+   "prompt_tokens": 1713,
+   "chars": 355
+  },
+  {
+   "set": "prose",
+   "prompt_id": "postgres-pool",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 1200,
+   "prompt_tokens": 29,
+   "chars": 4139
+  },
+  {
+   "set": "prose",
+   "prompt_id": "postgres-pool",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 505,
+   "prompt_tokens": 1312,
+   "chars": 1684
+  },
+  {
+   "set": "prose",
+   "prompt_id": "postgres-pool",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 453,
+   "prompt_tokens": 1757,
+   "chars": 1462
+  },
+  {
+   "set": "prose",
+   "prompt_id": "postgres-pool",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 439,
+   "prompt_tokens": 1697,
+   "chars": 1492
+  },
+  {
+   "set": "prose",
+   "prompt_id": "git-rebase-merge",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 575,
+   "prompt_tokens": 33,
+   "chars": 2113
+  },
+  {
+   "set": "prose",
+   "prompt_id": "git-rebase-merge",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 413,
+   "prompt_tokens": 1316,
+   "chars": 1640
+  },
+  {
+   "set": "prose",
+   "prompt_id": "git-rebase-merge",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 642,
+   "prompt_tokens": 1761,
+   "chars": 2496
+  },
+  {
+   "set": "prose",
+   "prompt_id": "git-rebase-merge",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 372,
+   "prompt_tokens": 1701,
+   "chars": 1468
+  },
+  {
+   "set": "prose",
+   "prompt_id": "async-refactor",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 407,
+   "prompt_tokens": 102,
+   "chars": 1286
+  },
+  {
+   "set": "prose",
+   "prompt_id": "async-refactor",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 181,
+   "prompt_tokens": 1385,
+   "chars": 591
+  },
+  {
+   "set": "prose",
+   "prompt_id": "async-refactor",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 206,
+   "prompt_tokens": 1830,
+   "chars": 668
+  },
+  {
+   "set": "prose",
+   "prompt_id": "async-refactor",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 204,
+   "prompt_tokens": 1770,
+   "chars": 651
+  },
+  {
+   "set": "prose",
+   "prompt_id": "microservices-monolith",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 913,
+   "prompt_tokens": 43,
+   "chars": 3656
+  },
+  {
+   "set": "prose",
+   "prompt_id": "microservices-monolith",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 354,
+   "prompt_tokens": 1326,
+   "chars": 1429
+  },
+  {
+   "set": "prose",
+   "prompt_id": "microservices-monolith",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 377,
+   "prompt_tokens": 1771,
+   "chars": 1519
+  },
+  {
+   "set": "prose",
+   "prompt_id": "microservices-monolith",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 276,
+   "prompt_tokens": 1711,
+   "chars": 1117
+  },
+  {
+   "set": "prose",
+   "prompt_id": "pr-security-review",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 650,
+   "prompt_tokens": 75,
+   "chars": 2224
+  },
+  {
+   "set": "prose",
+   "prompt_id": "pr-security-review",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 438,
+   "prompt_tokens": 1358,
+   "chars": 1402
+  },
+  {
+   "set": "prose",
+   "prompt_id": "pr-security-review",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 314,
+   "prompt_tokens": 1803,
+   "chars": 1057
+  },
+  {
+   "set": "prose",
+   "prompt_id": "pr-security-review",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 397,
+   "prompt_tokens": 1743,
+   "chars": 1244
+  },
+  {
+   "set": "prose",
+   "prompt_id": "docker-multi-stage",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 1200,
+   "prompt_tokens": 43,
+   "chars": 3766
+  },
+  {
+   "set": "prose",
+   "prompt_id": "docker-multi-stage",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 447,
+   "prompt_tokens": 1326,
+   "chars": 1496
+  },
+  {
+   "set": "prose",
+   "prompt_id": "docker-multi-stage",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 302,
+   "prompt_tokens": 1771,
+   "chars": 975
+  },
+  {
+   "set": "prose",
+   "prompt_id": "docker-multi-stage",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 309,
+   "prompt_tokens": 1711,
+   "chars": 980
+  },
+  {
+   "set": "prose",
+   "prompt_id": "race-condition-debug",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 899,
+   "prompt_tokens": 38,
+   "chars": 2970
+  },
+  {
+   "set": "prose",
+   "prompt_id": "race-condition-debug",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 439,
+   "prompt_tokens": 1321,
+   "chars": 1412
+  },
+  {
+   "set": "prose",
+   "prompt_id": "race-condition-debug",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 211,
+   "prompt_tokens": 1766,
+   "chars": 815
+  },
+  {
+   "set": "prose",
+   "prompt_id": "race-condition-debug",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 212,
+   "prompt_tokens": 1706,
+   "chars": 748
+  },
+  {
+   "set": "prose",
+   "prompt_id": "error-boundary",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 1200,
+   "prompt_tokens": 35,
+   "chars": 4109
+  },
+  {
+   "set": "prose",
+   "prompt_id": "error-boundary",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 425,
+   "prompt_tokens": 1318,
+   "chars": 1404
+  },
+  {
+   "set": "prose",
+   "prompt_id": "error-boundary",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 481,
+   "prompt_tokens": 1763,
+   "chars": 1495
+  },
+  {
+   "set": "prose",
+   "prompt_id": "error-boundary",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 367,
+   "prompt_tokens": 1703,
+   "chars": 1200
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 429,
+   "prompt_tokens": 36,
+   "chars": 1366
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 187,
+   "prompt_tokens": 1319,
+   "chars": 670
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 418,
+   "prompt_tokens": 1764,
+   "chars": 1581
+  },
+  {
+   "set": "tools",
+   "prompt_id": "router-restart",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 352,
+   "prompt_tokens": 1704,
+   "chars": 1269
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 314,
+   "prompt_tokens": 35,
+   "chars": 935
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 120,
+   "prompt_tokens": 1318,
+   "chars": 375
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 53,
+   "prompt_tokens": 1763,
+   "chars": 159
+  },
+  {
+   "set": "tools",
+   "prompt_id": "find-port-ref",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 104,
+   "prompt_tokens": 1703,
+   "chars": 329
+  },
+  {
+   "set": "tools",
+   "prompt_id": "failed-deploy",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 491,
+   "prompt_tokens": 28,
+   "chars": 1734
+  },
+  {
+   "set": "tools",
+   "prompt_id": "failed-deploy",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 243,
+   "prompt_tokens": 1311,
+   "chars": 799
+  },
+  {
+   "set": "tools",
+   "prompt_id": "failed-deploy",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 223,
+   "prompt_tokens": 1756,
+   "chars": 753
+  },
+  {
+   "set": "tools",
+   "prompt_id": "failed-deploy",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 90,
+   "prompt_tokens": 1696,
+   "chars": 315
+  },
+  {
+   "set": "tools",
+   "prompt_id": "log-scan",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 424,
+   "prompt_tokens": 32,
+   "chars": 1291
+  },
+  {
+   "set": "tools",
+   "prompt_id": "log-scan",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 169,
+   "prompt_tokens": 1315,
+   "chars": 461
+  },
+  {
+   "set": "tools",
+   "prompt_id": "log-scan",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 179,
+   "prompt_tokens": 1760,
+   "chars": 625
+  },
+  {
+   "set": "tools",
+   "prompt_id": "log-scan",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 163,
+   "prompt_tokens": 1700,
+   "chars": 562
+  },
+  {
+   "set": "tools",
+   "prompt_id": "db-check",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 428,
+   "prompt_tokens": 30,
+   "chars": 1479
+  },
+  {
+   "set": "tools",
+   "prompt_id": "db-check",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 97,
+   "prompt_tokens": 1313,
+   "chars": 318
+  },
+  {
+   "set": "tools",
+   "prompt_id": "db-check",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 92,
+   "prompt_tokens": 1758,
+   "chars": 288
+  },
+  {
+   "set": "tools",
+   "prompt_id": "db-check",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 75,
+   "prompt_tokens": 1698,
+   "chars": 223
+  },
+  {
+   "set": "tools",
+   "prompt_id": "disk-full",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 1200,
+   "prompt_tokens": 25,
+   "chars": 3507
+  },
+  {
+   "set": "tools",
+   "prompt_id": "disk-full",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 309,
+   "prompt_tokens": 1308,
+   "chars": 849
+  },
+  {
+   "set": "tools",
+   "prompt_id": "disk-full",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 43,
+   "prompt_tokens": 1753,
+   "chars": 130
+  },
+  {
+   "set": "tools",
+   "prompt_id": "disk-full",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 24,
+   "prompt_tokens": 1693,
+   "chars": 74
+  },
+  {
+   "set": "tools",
+   "prompt_id": "git-drift",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 390,
+   "prompt_tokens": 27,
+   "chars": 1374
+  },
+  {
+   "set": "tools",
+   "prompt_id": "git-drift",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 180,
+   "prompt_tokens": 1310,
+   "chars": 626
+  },
+  {
+   "set": "tools",
+   "prompt_id": "git-drift",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 65,
+   "prompt_tokens": 1755,
+   "chars": 204
+  },
+  {
+   "set": "tools",
+   "prompt_id": "git-drift",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 74,
+   "prompt_tokens": 1695,
+   "chars": 238
+  },
+  {
+   "set": "tools",
+   "prompt_id": "cert-expiry",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 233,
+   "prompt_tokens": 19,
+   "chars": 818
+  },
+  {
+   "set": "tools",
+   "prompt_id": "cert-expiry",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 40,
+   "prompt_tokens": 1302,
+   "chars": 128
+  },
+  {
+   "set": "tools",
+   "prompt_id": "cert-expiry",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 84,
+   "prompt_tokens": 1747,
+   "chars": 256
+  },
+  {
+   "set": "tools",
+   "prompt_id": "cert-expiry",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 8,
+   "prompt_tokens": 1687,
+   "chars": 19
+  },
+  {
+   "set": "tools",
+   "prompt_id": "stuck-container",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 321,
+   "prompt_tokens": 24,
+   "chars": 1215
+  },
+  {
+   "set": "tools",
+   "prompt_id": "stuck-container",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 69,
+   "prompt_tokens": 1307,
+   "chars": 230
+  },
+  {
+   "set": "tools",
+   "prompt_id": "stuck-container",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 112,
+   "prompt_tokens": 1752,
+   "chars": 422
+  },
+  {
+   "set": "tools",
+   "prompt_id": "stuck-container",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 110,
+   "prompt_tokens": 1692,
+   "chars": 314
+  },
+  {
+   "set": "tools",
+   "prompt_id": "port-conflict",
+   "arm": "baseline",
+   "run": 0,
+   "completion_tokens": 299,
+   "prompt_tokens": 22,
+   "chars": 994
+  },
+  {
+   "set": "tools",
+   "prompt_id": "port-conflict",
+   "arm": "caveman",
+   "run": 0,
+   "completion_tokens": 138,
+   "prompt_tokens": 1305,
+   "chars": 376
+  },
+  {
+   "set": "tools",
+   "prompt_id": "port-conflict",
+   "arm": "i-have-adhd",
+   "run": 0,
+   "completion_tokens": 34,
+   "prompt_tokens": 1750,
+   "chars": 104
+  },
+  {
+   "set": "tools",
+   "prompt_id": "port-conflict",
+   "arm": "beeline",
+   "run": 0,
+   "completion_tokens": 80,
+   "prompt_tokens": 1690,
+   "chars": 274
+  }
+ ]
+}
