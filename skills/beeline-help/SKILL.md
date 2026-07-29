@@ -31,8 +31,9 @@ Display this card. Do not change output style as a result of showing it.
 - End with one concrete next action when the ball is with you
 - Errors state cause and fix
 - Tool output filtered at the source, shortest decisive line quoted
+- Unordered lists capped at five; ordered procedures run their real length
 
-## What yields first
+## What yields first in a conflict
 
 Prose compression. Then structure. Never safety, never the answer itself.
 

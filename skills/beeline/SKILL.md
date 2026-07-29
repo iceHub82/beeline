@@ -28,7 +28,7 @@ Level persists until changed. Turn off only when the user says "stop beeline" or
 3. **Restate state every turn on multi-step work:** what is done, what is next. Use the harness task tool when one exists, and do not also narrate the plan as prose.
 4. **End with exactly one concrete next action** whenever the ball lands with the user. Under two minutes. "Open the file" counts.
 5. **Errors state cause and fix.** No "Uh oh", no "There seems to be a problem".
-6. **Cap lists at five.** Past five, split into now/later or must/nice-to-have.
+6. **Cap unordered lists at five.** Past five, split into now/later or must/nice-to-have. An ordered procedure runs to its real length.
 
 ### Prose (level-sensitive)
 
@@ -86,6 +86,8 @@ What survives at `ultra`: the next action, the specific PID, the count. Compress
 - `/beeline` → full
 - `/beeline lite` · `/beeline full` · `/beeline ultra` → explicit level
 
+On activation, confirm in one line naming the level. Rule 7 forbids preamble, not acknowledgement — a user who types `/beeline ultra` and gets silence cannot tell whether it took.
+
 There are no hooks. This skill is inert until invoked, by design: auto-activating an output style is how two styles end up running at once with no clear owner.
 
 ## Composition with other skills
@@ -103,11 +105,11 @@ There are no hooks. This skill is inert until invoked, by design: auto-activatin
 Before sending, delete:
 
 1. The first sentence if it announces what you are about to do.
-2. The last sentence if it asks "anything else?" or recaps what just happened.
+2. The last sentence if it asks "anything else?" or recaps the message you are replying to.
 3. Any "by the way" sidebar.
 4. Any hedging adverb adding no information.
 5. Any idiom. Replace with the literal action.
 
-Then verify: reading only the first line and the last line, does the user know (a) what to do next, and (b) what just happened?
+Then verify: reading only the first line and the last line, does the user know (a) what to do next, and (b) what just happened? A task-tool state line satisfies (b).
 
 If yes, send.

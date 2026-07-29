@@ -24,7 +24,10 @@ describe('beeline rules', () => {
     for (const level of ['lite', 'full', 'ultra']) {
       assert.ok(SKILL.includes(`| ${level} `), `level ${level} missing from the table`);
     }
-    assert.match(SKILL, /default.*full|full.*default/i);
+    assert.match(SKILL, /\|\s*full\s*\|[^\n]*\*\*Default\.\*\*/, 'full must be marked Default in the levels table');
+
+    const rows = SKILL.split('\n').filter((l) => /^\|\s*(lite|full|ultra|[a-z-]+)\s*\|/.test(l) && !/^\|\s*-+/.test(l) && !/\|\s*Prose\s*\|/.test(l));
+    assert.strictEqual(rows.length, 3, `levels table must have exactly 3 data rows, found ${rows.length}`);
   });
 
   it('states the precedence order', () => {
@@ -56,5 +59,18 @@ describe('beeline rules', () => {
 
   it('exempts code and commits from compression', () => {
     assert.match(SKILL, /Code, commits, PRs.*normal/s);
+  });
+
+  it('skill, help card and README agree on the level names', () => {
+    const help = fs.readFileSync(path.join(__dirname, '..', 'skills', 'beeline-help', 'SKILL.md'), 'utf8');
+    const readme = fs.readFileSync(path.join(__dirname, '..', 'README.md'), 'utf8');
+    for (const level of ['lite', 'full', 'ultra']) {
+      assert.ok(help.includes(level), `help card missing level ${level}`);
+      assert.ok(readme.includes(level), `README missing level ${level}`);
+    }
+    for (const phrase of ['stop beeline', 'normal mode']) {
+      assert.ok(help.includes(phrase), `help card missing off-switch "${phrase}"`);
+      assert.ok(readme.includes(phrase), `README missing off-switch "${phrase}"`);
+    }
   });
 });

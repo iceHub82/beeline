@@ -39,6 +39,7 @@ describe('plugin structure', () => {
   it('plugin.json declares no hooks — activation is /beeline only', () => {
     const p = JSON.parse(fs.readFileSync(path.join(ROOT, '.claude-plugin/plugin.json'), 'utf8'));
     assert.strictEqual(p.hooks, undefined, 'beeline must not auto-activate via hooks');
+    assert.ok(!fs.existsSync(path.join(ROOT, 'hooks')), 'no hooks directory — beeline must never auto-activate');
   });
 
   it('marketplace.json lists the plugin', () => {
@@ -61,5 +62,8 @@ describe('plugin structure', () => {
   it('the main skill is user-invocable only', () => {
     const main = readFrontmatter('skills/beeline/SKILL.md');
     assert.strictEqual(main.fields['disable-model-invocation'], 'true');
+
+    const help = readFrontmatter('skills/beeline-help/SKILL.md');
+    assert.strictEqual(help.fields['disable-model-invocation'], 'true');
   });
 });
