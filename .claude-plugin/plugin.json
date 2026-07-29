@@ -1,0 +1,8 @@
+{
+  "name": "beeline",
+  "version": "0.1.0",
+  "description": "Output style that is compressed and action-first: lead with the action, number real sequences, restate state, end with one next action, and filter tool output at the source.",
+  "author": {
+    "name": "Örvar Karlsson"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "beeline",
+  "description": "Compressed, action-first output for Claude Code. Structure that survives compression, plus tool-output discipline.",
+  "owner": {
+    "name": "Örvar Karlsson"
+  },
+  "plugins": [
+    {
+      "name": "beeline",
+      "description": "Lead with the action, number real sequences, restate state, end with one next action. Levels: lite, full, ultra.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}
