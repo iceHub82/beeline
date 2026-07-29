@@ -31,7 +31,9 @@ The same responses were then scored blind by a second model, which is the number
 | i-have-adhd | 4.43 | 4.53 | 3.90 | **5.00** |
 | **beeline** | **4.67** | **4.73** | 4.00 | 4.97 |
 
-That scoring caught a real defect first time round: beeline was last in three of four columns, answering *"What's your domain?"* in eight tokens when asked how to check a TLS certificate's expiry. One rule change — answer with a placeholder, then ask — moved answered 3.97 → 4.67 and follow-up rate 27% → 17% for two points of token saving. The before, after, control arms and the residual weakness (completeness, still below baseline) are in **[BENCHMARKS.md](BENCHMARKS.md)**.
+That scoring caught a real defect first time round: beeline was last in three of four columns, answering *"What's your domain?"* in eight tokens when asked how to check a TLS certificate's expiry. One rule change — answer with a placeholder, then ask — moved answered 3.97 → 4.67 and follow-up rate 27% → 17% for two points of token saving.
+
+**Don't over-read the quality table.** Paired bootstrap CIs say beeline is meaningfully more readable than caveman (+0.70 prose, +0.47 tools) and otherwise indistinguishable from both parents on quality. The honest claim is *same quality, 11–13% cheaper, easier to read than caveman* — not "better". Numbers, intervals, control arms and the residual weakness (completeness, still below baseline) are in **[BENCHMARKS.md](BENCHMARKS.md)**.
 
 Also worth knowing: counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls, and no arm actually called a tool.
 

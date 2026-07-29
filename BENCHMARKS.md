@@ -132,13 +132,49 @@ Three untouched skills reproducing to within 0.1 means the judge is stable, so b
 
 **What did not get fixed:** completeness is still beeline's weakest axis at 4.00, below plain baseline's 4.77. It is now tied with caveman (4.13) rather than last, but the residual gap is real. Compression costs some substance; the fix narrowed that, it did not eliminate it.
 
+## 6. How much better is beeline, really?
+
+The tables above are point estimates. Paired by prompt and run, with a
+8,000-sample bootstrap on the mean difference, most of the quality gaps between
+beeline and its parents do not survive a 95% confidence interval:
+
+| comparison | metric | delta | 95% CI | |
+|---|---|---:|---|---|
+| vs caveman | readable (prose) | +0.70 | [+0.47, +0.97] | **real** |
+| vs caveman | readable (tools) | +0.47 | [+0.27, +0.70] | **real** |
+| vs caveman | actionable (prose) | +0.17 | [+0.03, +0.30] | **real** |
+| vs caveman | answered (tools) | +0.13 | [−0.27, +0.60] | noise |
+| vs caveman | complete (tools) | −0.13 | [−0.67, +0.47] | noise |
+| vs i-have-adhd | *every metric, both sets* | ≤0.23 | all straddle 0 | **noise** |
+
+What that supports:
+
+- **Against caveman** — clearly more readable, marginally more actionable, and
+  11% cheaper. On whether it answers the question or covers it completely, the
+  two are indistinguishable.
+- **Against i-have-adhd** — 13% cheaper at quality that cannot be distinguished
+  on any axis in either set.
+
+"Beeline beats the incumbents on quality" is **not** supported by this data.
+"Beeline matches them on quality at 11–13% lower cost, and reads more easily
+than caveman" is.
+
+The section 5 result is a different matter: +0.70 on `answered` and +0.80 on
+`complete` against beeline's own prior version, on the same prompts with three
+control arms moving less than 0.1, is far outside this noise floor. Finding a
+regression in one skill is a much easier measurement than separating two good
+skills from each other.
+
 ## What this does not show
 
 1. **No arm actually called a tool.** The harness has no tool loop, so the "tools" set measures how each skill *describes* doing the work — not whether it filters output at the source. Rules 11–14 remain untested in a live session.
 2. **All three skills lose to plain baseline** if you make a handful of uncached calls (section 2).
 3. **Layer 3 is arithmetic, not measurement.** The 0.1× cache-read multiplier is applied to measured token counts; no cached run was performed.
 4. **One judge, one model.** Opus judging Sonnet's output. A second judge, or human scoring, could move the quality numbers; the size of the tools-set gap makes a full reversal unlikely but the exact figures are soft.
-5. **n=30 per cell** is enough for a stable ranking, not for confidence intervals.
+5. **n=30 per cell** is enough for a stable ranking and for detecting a large
+   regression (section 5). It is not enough to separate beeline from
+   i-have-adhd on quality — see section 6, where none of those gaps clear
+   their confidence interval.
 
 ## Reproduce
 
