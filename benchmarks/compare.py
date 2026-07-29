@@ -146,6 +146,8 @@ def main():
     ap.add_argument("--max-tokens", type=int, default=1200)
     ap.add_argument("--arms", default="baseline,caveman,i-have-adhd,beeline")
     ap.add_argument("--limit", type=int, default=0, help="cap prompts per set (smoke test)")
+    ap.add_argument("--keep-text", action="store_true",
+                    help="store response and prompt text so judge.py can score quality")
     args = ap.parse_args()
 
     key = load_key()
@@ -198,12 +200,17 @@ def main():
                 except Exception as e:
                     print("FAIL %s/%s: %s" % (arm, pid, e))
                     return 1
-                records.append({
+                rec = {
                     "set": pset, "prompt_id": pid, "arm": arm, "run": run,
                     "completion_tokens": r["completion_tokens"],
                     "prompt_tokens": r["prompt_tokens"],
                     "chars": len(r["text"]),
-                })
+                }
+                if args.keep_text:
+                    # judge.py needs both to score responses blind
+                    rec["text"] = r["text"]
+                    rec["prompt_text"] = text
+                records.append(rec)
                 done += 1
                 print("  [%d/%d] %-12s %-22s out=%s"
                       % (done, total_calls, arm, pid, r["completion_tokens"]))
