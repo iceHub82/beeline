@@ -2,7 +2,7 @@
 
 Compressed, action-first output for Claude Code.
 
-Merges the structural rules of [`i-have-adhd`](https://github.com/ayghri/i-have-adhd) with the omission rules of [`caveman`](https://github.com/JuliusBrussee/caveman), drops article-stripping from the default, and adds a third rule group neither has: tool-output discipline.
+Merges the structural rules of [`i-have-adhd`](https://github.com/ayghri/i-have-adhd) with the omission rules of [`caveman`](https://github.com/JuliusBrussee/caveman), drops article-stripping from the default, and expands caveman's single rule about tool output into a rule group of its own.
 
 ## Why
 
@@ -10,7 +10,7 @@ Merges the structural rules of [`i-have-adhd`](https://github.com/ayghri/i-have-
 
 `i-have-adhd` shapes output so it can be acted on: lead with the action, number sequences, restate state, end with one next action. Those rules spend tokens, which is what caveman deletes.
 
-Neither addresses where the tokens actually go. In a working session, assistant prose is a minority of the total — tool results dominate.
+Neither says much about where the tokens actually go. In a working session, assistant prose is a minority of the total — tool results dominate. caveman has one clause on this (don't dump raw error logs, quote the shortest decisive line); `i-have-adhd` has none. beeline turns that clause into four rules: filter at the source, quote the decisive line, don't re-read what's already in context, verify with the narrowest check that would fail if the change broke.
 
 ## Measured
 
