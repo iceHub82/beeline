@@ -36,10 +36,26 @@ describe('plugin structure', () => {
     assert.ok(p.description && p.description.length > 20, 'description too short');
   });
 
-  it('plugin.json declares no hooks — activation is /beeline only', () => {
+  it('nothing activates beeline except an explicit /beeline', () => {
     const p = JSON.parse(fs.readFileSync(path.join(ROOT, '.claude-plugin/plugin.json'), 'utf8'));
-    assert.strictEqual(p.hooks, undefined, 'beeline must not auto-activate via hooks');
-    assert.ok(!fs.existsSync(path.join(ROOT, 'hooks')), 'no hooks directory — beeline must never auto-activate');
+    assert.strictEqual(p.hooks, undefined, 'beeline must not auto-activate via plugin.json');
+
+    // This used to assert that no hooks/ directory existed at all. That banned the
+    // mechanism rather than the behaviour, and the behaviour is what matters: the
+    // level tracker restates a level the user already chose, and stays silent
+    // until they choose one. Assert the invariant instead of the absence.
+    const hookPath = path.join(ROOT, 'hooks', 'beeline-level.js');
+    if (!fs.existsSync(hookPath)) return;
+
+    const hook = require(hookPath);
+    hook.clear();
+    assert.strictEqual(hook.apply('write me a function'), null,
+      'an ordinary prompt must not activate beeline');
+    assert.strictEqual(hook.apply(''), null,
+      'an empty prompt must not activate beeline');
+    assert.strictEqual(hook.apply('/beeline ultra'), 'ultra',
+      'an explicit command is the only thing that activates it');
+    hook.clear();
   });
 
   it('marketplace.json lists the plugin', () => {

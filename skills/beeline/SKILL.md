@@ -88,7 +88,9 @@ What survives at `ultra`: the next action, the specific PID, the count. Compress
 
 On activation, confirm in one line naming the level. Rule 7 forbids preamble, not acknowledgement — a user who types `/beeline ultra` and gets silence cannot tell whether it took.
 
-There are no hooks. This skill is inert until invoked, by design: auto-activating an output style is how two styles end up running at once with no clear owner.
+Nothing auto-activates this skill. It is inert until invoked, by design: auto-activating an output style is how two styles end up running at once with no clear owner.
+
+A hook does run once a level is set — `hooks/beeline-level.js` writes the chosen level to `~/.claude/.beeline-level` and restates it on every turn. It exists because this section, on its own, does not hold: in real sessions the level decays within a message or two of tool-heavy work, and the user ends up asking "are you still using beeline?" repeatedly. A paragraph asking the model not to drift is the weakest enforcement available; a per-turn reminder is not. The hook never chooses a level, only repeats the one you chose, and emits nothing at all until you type `/beeline`.
 
 ## Composition with other skills
 
