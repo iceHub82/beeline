@@ -19,10 +19,11 @@ Neither says much about where the tokens actually go. In a working session, assi
 | bucket | share of spend |
 |---|---:|
 | context re-read each turn (cache) | 93% |
-| **output tokens** | **6%** |
-| of which, assistant prose | **0.7%** |
+| output tokens | 6% |
+| of which, model reasoning | 4.4% |
+| **of which, visible prose** | **0.33%** |
 
-Every word written in that session cost $0.95 of a $292 bill. A single extra round-trip cost $0.18 — so five clarifying questions erase everything prose compression could ever save. Meanwhile 902 turns made tool calls and every one made exactly one call; batching a third of them would have saved fifty times the entire prose budget.
+All the prose written in that session — every word of it combined — cost **$0.96** of a $292 bill. A single extra round-trip cost $0.18, so five clarifying questions erase everything prose compression could ever save. Meanwhile 902 turns made tool calls and every one made exactly one call; batching a third of them would have saved roughly $48, fifty times the entire prose budget.
 
 That is why rules 11–17 (filter at source, batch independent calls, never trade a turn for brevity, write a file once) are the half that moves the bill, and rules 7–10 are the half that makes output readable. Both are worth having. Only one is worth measuring in dollars.
 
@@ -36,6 +37,8 @@ With that established, the single-turn benchmark: 240 calls against caveman's ow
 
 True for what it measures — output tokens, one prompt, one answer, no tool loop. In the real session above, the same skill produced **no net saving at all**: prose per message fell 24%, message count rose 32%.
 
+**That benchmark ran against 0.1.0.** Rules 15–17 and the level hook came later and have not been re-benchmarked; the single-turn numbers describe an earlier, shorter `SKILL.md`. Nothing in 0.3.0's economic argument rests on them, but they are not a measurement of the current skill.
+
 The same responses were then scored blind by a second model, which is the number worth caring about — a skill that saves tokens by saying nothing would win the table above.
 
 | tools set | answered | actionable | complete | readable |
@@ -47,7 +50,7 @@ The same responses were then scored blind by a second model, which is the number
 
 That scoring caught a real defect first time round: beeline was last in three of four columns, answering *"What's your domain?"* in eight tokens when asked how to check a TLS certificate's expiry. One rule change — answer with a placeholder, then ask — moved answered 3.97 → 4.67 and follow-up rate 27% → 17% for two points of token saving.
 
-**Don't over-read the quality table.** Paired bootstrap CIs say beeline is meaningfully more readable than caveman (+0.70 prose, +0.47 tools) and otherwise indistinguishable from both parents on quality. The honest claim is *same quality, 11–13% cheaper, easier to read than caveman* — not "better". Numbers, intervals, control arms and the residual weakness (completeness, still below baseline) are in **[BENCHMARKS.md](BENCHMARKS.md)**.
+**Don't over-read the quality table.** Cluster bootstrap CIs — resampling whole prompts, not prompt-run rows, since 30 rows are only 10 unique tasks — say beeline is meaningfully more readable than caveman (+0.70 prose, +0.47 tools) and otherwise indistinguishable from both parents on quality. The honest claim is *same quality, 11–13% cheaper, easier to read than caveman* — not "better". Numbers, intervals, control arms and the residual weakness (completeness, still below baseline) are in **[BENCHMARKS.md](BENCHMARKS.md)**.
 
 Also worth knowing: counting total tokens rather than output tokens, every skill here — beeline included — costs *more* than no skill at all on uncached calls, and no arm actually called a tool.
 
@@ -78,12 +81,14 @@ Levels change prose only. Numbered steps, state restatement, the single next act
 
 Off: `stop beeline` or `normal mode`.
 
+**Activation is global, not per project.** The level lives in `~/.claude/.beeline-level`, so turning it on in one repo applies it to every Claude Code session on that machine until you turn it off.
+
 ## What it will not do
 
 - Compress a safety confirmation before a destructive action
 - Compress code, commits, PRs, or config
 - Answer "what are my options" with one option
-- Auto-activate — there are no hooks; it is inert until you type `/beeline`
+- Auto-activate — it is inert until you type `/beeline`. A hook restates the level you chose on each turn, but never picks one
 
 ## With other skills
 

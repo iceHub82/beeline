@@ -136,7 +136,7 @@ Three untouched skills reproducing to within 0.1 means the judge is stable, so b
 
 ## 6. How much better is beeline, really?
 
-The tables above are point estimates. Paired by prompt and run, with a
+The tables above are point estimates. Paired by prompt and run, with a cluster
 8,000-sample bootstrap on the mean difference, most of the quality gaps between
 beeline and its parents do not survive a 95% confidence interval:
 
@@ -184,9 +184,25 @@ turns of infrastructure debugging, deployment and code review across two repos,
 | fresh input | 3,140 | ~$0 | 0% |
 | **total** | | **~$292** | |
 
-Costed at Opus rates. Output is 6% of spend. Within that output, assistant prose
-was 11% and tool calls 51%, so **the prose an output-style skill governs is
-0.7% of the bill**. Every word written in that session cost $0.95.
+Costed at Opus rates. Output is 6% of spend — but most of that output is not
+prose. Measured output was 726,353 tokens while visible content accounts for only
+~210,000; the remainder is model reasoning, which no output style governs.
+
+| within output | tokens | cost | share of total spend |
+|---|---:|---:|---:|
+| reasoning | ~516,000 | $12.91 | 4.4% |
+| my tool calls | ~172,000 | $4.29 | 1.5% |
+| **visible prose** | **~38,000** | **$0.96** | **0.33%** |
+
+So the prose an output-style skill governs is **a third of one percent** of the
+bill. All of it, combined, cost $0.96.
+
+**Correction.** An earlier version of this section reported 0.7% and phrased it
+as "every word cost $0.95", which reads as a per-word price. Both were wrong. The
+0.7% came from dividing prose by `prose + tool_calls + tool_results` — a
+denominator mixing output with input, since tool results are returned *to* the
+model. An external reviewer flagged the phrasing and proposed $2.04; that figure
+inherits the same bad denominator. The correct number is smaller than either.
 
 ### The unit that matters is the turn, not the word
 

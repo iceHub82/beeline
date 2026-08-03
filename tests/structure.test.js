@@ -1,3 +1,6 @@
+const os = require('os');
+const pathmod = require('path');
+process.env.BEELINE_STATE_FILE = pathmod.join(os.tmpdir(), '.beeline-level-test-structure');
 const { describe, it } = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');

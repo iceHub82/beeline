@@ -3,6 +3,7 @@ const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+process.env.BEELINE_STATE_FILE = path.join(os.tmpdir(), '.beeline-level-test-hook');
 
 const hook = require('../hooks/beeline-level');
 
@@ -10,11 +11,11 @@ const hook = require('../hooks/beeline-level');
 // the suite does not clobber the developer's own active level.
 let saved = null;
 test.before(() => {
-  try { saved = fs.readFileSync(hook.STATE, 'utf8'); } catch (e) { saved = null; }
+  try { saved = fs.readFileSync(hook.statePath(), 'utf8'); } catch (e) { saved = null; }
 });
 test.after(() => {
   if (saved === null) hook.clear();
-  else { fs.mkdirSync(path.dirname(hook.STATE), { recursive: true }); fs.writeFileSync(hook.STATE, saved); }
+  else { fs.mkdirSync(path.dirname(hook.statePath()), { recursive: true }); fs.writeFileSync(hook.statePath(), saved); }
 });
 
 test('bare /beeline activates at full', () => {
@@ -67,4 +68,20 @@ test('the reminder names the level and the prose rule', () => {
   assert.match(r, /level: ultra/);
   assert.match(r, /Telegraphic/);
   assert.match(r, /one concrete/);
+});
+
+// The reminder is the only thing re-stated every turn, so it has to carry the
+// rules that actually cost money. Prose compression governs a third of one
+// percent of an agent session; turns and context govern the rest.
+test('the reminder carries the cost-bearing rules, not just the style one', () => {
+  const r = hook.reminder('full');
+  assert.match(r, /[Bb]atch independent tool calls/, 'rule 15 must be present');
+  assert.match(r, /round-trip/, 'rule 16 must be present');
+  assert.match(r, /file once/, 'rule 17 must be present');
+});
+
+test('the cost-bearing rules come before the prose rule', () => {
+  const r = hook.reminder('full');
+  assert.ok(r.indexOf('Batch independent') < r.indexOf('Prose:'),
+    'a turn costs far more than a sentence; order the reminder accordingly');
 });

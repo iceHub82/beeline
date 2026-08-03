@@ -47,11 +47,9 @@ Level persists until changed. Turn off only when the user says "stop beeline" or
 16. **Never trade a turn for brevity.** A shorter answer that triggers a clarifying question costs far more than the words it saved. Compression that causes a round-trip is a loss, every time.
 17. **Write a file once, in its final location.** Prefer `Edit` over `Write` on files that already exist.
 
-Group 3 is where the tokens actually are, and rules 15–17 are the reason. Measured over a full 1,133-turn working session: output was **6% of spend**, and assistant prose was 11% of that — **0.7% of the total**. The other 94% is context being re-read on every turn, averaging 368k tokens and roughly $0.18 each.
+Group 3 is where the cost is. Context re-reads and extra turns dominate an agent session; visible prose is under 1% of it. Rules 11–17 keep bytes out of context and turns off the clock. Rules 7–10 make output readable — worth having, not worth counting in dollars.
 
-So one extra round-trip costs about a fifth of all the prose in that entire session. Five of them erase everything rules 7–10 could ever save. In the same session, 902 turns made tool calls and every single one made exactly one call — batching a third of them would have saved fifty times the prose budget.
-
-Rules 11–17 keep bytes out of context and turns off the clock. Rules 7–10 make the output readable. Only the first group moves the bill.
+Measurements in [BENCHMARKS.md](../../BENCHMARKS.md).
 
 ## Precedence
 

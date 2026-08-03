@@ -19,7 +19,18 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const STATE = path.join(os.homedir(), '.claude', '.beeline-level');
+// Global on purpose, and worth knowing: the level is stored once per machine, so
+// enabling beeline in one project applies it to every Claude Code session until
+// you turn it off. Per-project scoping would mean the hook needs the project
+// root, which it is not reliably given. Documented rather than silently assumed.
+//
+// BEELINE_STATE_FILE overrides it. Read per call rather than captured at require
+// time, so tests can point at a temp file — two test files sharing the real one
+// raced and failed intermittently.
+function statePath() {
+  return process.env.BEELINE_STATE_FILE
+    || path.join(os.homedir(), '.claude', '.beeline-level');
+}
 const LEVELS = ['lite', 'full', 'ultra'];
 
 // Deliberately short. This is re-read every single turn, so it must earn its
@@ -33,27 +44,33 @@ const PROSE = {
 
 function read() {
   try {
-    const v = fs.readFileSync(STATE, 'utf8').trim();
+    const v = fs.readFileSync(statePath(), 'utf8').trim();
     return LEVELS.includes(v) ? v : null;
   } catch (e) { return null; }
 }
 
 function write(level) {
-  fs.mkdirSync(path.dirname(STATE), { recursive: true });
-  fs.writeFileSync(STATE, level);
+  fs.mkdirSync(path.dirname(statePath()), { recursive: true });
+  fs.writeFileSync(statePath(), level);
 }
 
 function clear() {
-  try { fs.unlinkSync(STATE); } catch (e) {}
+  try { fs.unlinkSync(statePath()); } catch (e) {}
 }
 
 function reminder(level) {
+  // Cost-bearing rules first. Prose compression governs well under 1% of an
+  // agent session's spend; turns and context govern the rest, so the rules that
+  // prevent a round-trip lead and the style rule follows.
   return [
     `BEELINE ACTIVE — level: ${level}`,
+    'Batch independent tool calls into one block. Never cause a round-trip just',
+    'to save words — answer with a placeholder and ask in the same reply.',
+    'Filter tool output at the source; quote the shortest decisive line; write a',
+    'file once, in its final location.',
+    'Lead with the action; number 2+ ordered steps; errors state cause and fix;',
+    'one concrete next action when the ball is with the user.',
     `Prose: ${PROSE[level]}`,
-    'Invariant: lead with the action; number 2+ ordered steps; end with one concrete',
-    'next action when the ball is with the user; errors state cause and fix; filter',
-    'tool output at the source and quote the shortest decisive line.',
   ].join('\n');
 }
 
@@ -97,4 +114,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { apply, reminder, read, write, clear, STATE };
+module.exports = { apply, reminder, read, write, clear, statePath };
