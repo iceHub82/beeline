@@ -31,11 +31,20 @@ Display this card. Do not change output style as a result of showing it.
 - End with one concrete next action when the ball is with you
 - Errors state cause and fix
 - Tool output filtered at the source, shortest decisive line quoted
+- Independent tool calls batched into one block — the turn is the expensive unit
+- A turn is never traded for brevity; a round-trip costs more than the words saved
+- Files written once, in their final location; `Edit` over `Write` when it exists
 - Unordered lists capped at five; ordered procedures run their real length
 
 ## What yields first in a conflict
 
 Prose compression. Then structure. Never safety, never the answer itself.
+
+## Where the cost actually is
+
+Measured over a 1,133-turn session: output was 6% of spend, prose 11% of output —
+0.7% of the total. The rest is context re-read every turn. The tool-discipline
+rules are the ones that move the bill; the prose rules make it readable.
 
 ## With other skills
 

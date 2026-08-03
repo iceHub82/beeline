@@ -6,6 +6,8 @@ Run 2026-07-29. Raw data and the harness are in this directory; every number bel
 
 **Read section 4 before quoting section 1.** On tool-shaped work beeline buys its token savings partly by not answering the question. That is a defect in the skill, and the numbers below are the evidence for it.
 
+**Read section 7 before quoting any of it.** Sections 1–6 measure output tokens in a single-turn harness with no tool loop. Instrumented against a real 1,133-turn agent session, output was **6% of spend** and assistant prose **0.7%**. The −63% headline is accurate and very nearly irrelevant.
+
 ## Method
 
 Four arms, identical prompts, identical model, `temperature: 0`. Each arm loads one skill's `SKILL.md` as the system prompt; baseline sends none. Token counts come from the provider's `usage` field, never a local estimate.
@@ -164,6 +166,84 @@ The section 5 result is a different matter: +0.70 on `answered` and +0.80 on
 control arms moving less than 0.1, is far outside this noise floor. Finding a
 regression in one skill is a much easier measurement than separating two good
 skills from each other.
+
+## 7. What a real session says
+
+Sections 1–6 measure one prompt, one answer, no tools. That is not what an agent
+session looks like. This section instruments an actual working session — 1,133
+turns of infrastructure debugging, deployment and code review across two repos,
+12 MB of transcript — and the picture inverts.
+
+### Where the money went
+
+| bucket | tokens | cost | share |
+|---|---:|---:|---:|
+| cache **read** | 417,080,654 | $208 | 71% |
+| cache **write** | 10,394,758 | $65 | 22% |
+| **output** | 726,353 | $18 | **6%** |
+| fresh input | 3,140 | ~$0 | 0% |
+| **total** | | **~$292** | |
+
+Costed at Opus rates. Output is 6% of spend. Within that output, assistant prose
+was 11% and tool calls 51%, so **the prose an output-style skill governs is
+0.7% of the bill**. Every word written in that session cost $0.95.
+
+### The unit that matters is the turn, not the word
+
+Every turn re-reads the whole conversation. Average context was **368k tokens per
+turn**, about **$0.18** each at cache-read rates.
+
+One extra round-trip therefore costs roughly a fifth of all the prose in the
+entire session. Five of them erase everything rules 7–10 could ever save.
+
+That is the mechanism behind section 4's defect. Pre-fix beeline had a **27%
+follow-up rate** on tool prompts — it asked "What's your domain?" instead of
+giving the command. Each follow-up is a turn. The placeholder fix was worth more
+than every prose rule in the skill combined, and not one character of it is
+about brevity.
+
+### The largest single finding
+
+Of 902 turns that made tool calls, **every one made exactly one call.**
+
+| tool calls per turn | turns |
+|---|---:|
+| 1 | 902 (100%) |
+| 2 or more | 0 |
+
+The harness instructs batching independent calls. It did not happen once.
+Batching a conservative third of them saves ~270 turns, about **$48** — fifty
+times the session's entire prose budget.
+
+### Before and after, in the same session
+
+beeline was switched on partway through, so the transcript contains both:
+
+| measure | before | after | change |
+|---|---:|---:|---:|
+| output tokens/msg, median | 488 | 547 | +12% |
+| prose chars/msg, median | 1,301 | 988 | **−24%** |
+| total prose chars | 144,258 | 155,307 | **+8%** |
+
+Prose per message fell by a quarter. Total prose rose, because the message count
+rose 32%. Net saving: none.
+
+Two confounders, stated rather than hidden: the workload differs across the two
+halves, and the level drifted repeatedly — the user asked "are you using
+beeline?" seven times, which is what prompted the level hook in 0.2.0. The
+"after" period is not cleanly beeline.
+
+### What this changes
+
+The −63% in section 3 is real for what it measures: output tokens, single-turn,
+cached system prompt. It is not a claim about what a skill saves you in an agent
+loop, and it should never have been read as one.
+
+Rules 11–17 — filter at the source, quote the decisive line, don't re-read
+context, batch independent calls, never trade a turn for brevity, write a file
+once — are the half that moves the bill, because they keep bytes out of context
+and turns off the clock. Rules 7–10 make output readable. That is a real benefit
+and it is not a financial one.
 
 ## What this does not show
 

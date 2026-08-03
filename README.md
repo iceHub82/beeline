@@ -14,13 +14,27 @@ Neither says much about where the tokens actually go. In a working session, assi
 
 ## Measured
 
-240 calls against caveman's own benchmark plus a tool-shaped prompt set, on `claude-sonnet-4.5`, with the system prompt cached as it is in a real session. n=30 per cell.
+**Start here, because the headline number below is the least useful one.** Instrumented against a real 1,133-turn agent session — 12 MB of transcript, two repos, infrastructure work — the budget splits like this:
+
+| bucket | share of spend |
+|---|---:|
+| context re-read each turn (cache) | 93% |
+| **output tokens** | **6%** |
+| of which, assistant prose | **0.7%** |
+
+Every word written in that session cost $0.95 of a $292 bill. A single extra round-trip cost $0.18 — so five clarifying questions erase everything prose compression could ever save. Meanwhile 902 turns made tool calls and every one made exactly one call; batching a third of them would have saved fifty times the entire prose budget.
+
+That is why rules 11–17 (filter at source, batch independent calls, never trade a turn for brevity, write a file once) are the half that moves the bill, and rules 7–10 are the half that makes output readable. Both are worth having. Only one is worth measuring in dollars.
+
+With that established, the single-turn benchmark: 240 calls against caveman's own set plus a tool-shaped set, `claude-sonnet-4.5`, system prompt cached, n=30 per cell.
 
 | arm | output tokens saved |
 |---|---:|
 | caveman | −58% |
 | i-have-adhd | −57% |
 | **beeline** | **−63%** |
+
+True for what it measures — output tokens, one prompt, one answer, no tool loop. In the real session above, the same skill produced **no net saving at all**: prose per message fell 24%, message count rose 32%.
 
 The same responses were then scored blind by a second model, which is the number worth caring about — a skill that saves tokens by saying nothing would win the table above.
 
