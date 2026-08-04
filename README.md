@@ -41,6 +41,10 @@ Same skill, same harness, opposite verdicts. Overhead is fixed — ~1,700 tokens
 
 **Below about one system-prompt's worth of tool output per turn, this skill costs you money. Above it, it pays several times over.** Full numbers in [BENCHMARKS.md](BENCHMARKS.md) section 8.
 
+**Both agent-loop runs were uncached** — every turn paid full price for the system prompt. Claude Code caches it at roughly 0.1×, which would cut that overhead about tenfold and pull the small-task penalty toward break-even. That is arithmetic, not a measurement; no cached comparison has been run.
+
+The saving that holds in every run regardless: **57–67% less tool output pulled into context.** That barely moves the bill, but it means more turns before compaction.
+
 With that established, the single-turn benchmark: 240 calls against caveman's own set plus a tool-shaped set, `claude-sonnet-4.5`, system prompt cached, n=30 per cell.
 
 | arm | output tokens saved |
