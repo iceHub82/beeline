@@ -261,6 +261,84 @@ once — are the half that moves the bill, because they keep bytes out of contex
 and turns off the clock. Rules 7–10 make output readable. That is a real benefit
 and it is not a financial one.
 
+## 8. The agent-loop benchmark
+
+Sections 1-6 send one prompt and read one reply. Section 7 measured a real
+session but could not attribute anything, because the workload differed either
+side of activation. This section runs an actual tool loop with real tools
+against a real filesystem, so the arms differ only by the system prompt.
+
+**Harness.** `benchmarks/agent-loop.py`. Three tools — `bash`, `read_file`,
+`write_file` — against a generated fixture (`make-fixture.py`): a 15-file Python
+project with planted faults. 12 tasks, each with a deterministic checker, so a
+compressed arm cannot win by saying nothing. Turn cap 12; hitting it is a
+failure. `bash` runs in a container with no network and only the fixture mounted.
+
+**Setup.** `claude-haiku-4-5` on AWS Bedrock via a LiteLLM proxy. Two arms:
+no system prompt, and beeline's `SKILL.md` as the system prompt. One run.
+
+### Result
+
+| | baseline | beeline |
+|---|---:|---:|
+| tasks completed | **12/12** | 10/12 |
+| total turns | 49 | **44** |
+| tool output pulled into context | 14,473 chars | **6,160** |
+| **total tokens billed** | **64,432** | 147,813 |
+
+The tool-discipline rules do what they claim. Beeline took 10% fewer turns and
+pulled 57% less tool output into context.
+
+It still cost **2.3x more**, and completed two fewer tasks.
+
+### Why it lost
+
+Beeline ran 44 turns with a ~1,700-token `SKILL.md` re-sent on every one of
+them: roughly 75,000 tokens of prompt overhead, which accounts for about 90% of
+the 83,000-token gap. On tasks this short the skill's own prompt costs far more
+than its discipline saves.
+
+That gives a break-even condition rather than a verdict. The saving is
+proportional to tool output avoided; the cost is fixed per turn. In this fixture
+tool results averaged ~140 chars per turn, against 1,700 tokens of overhead.
+Beeline only pays for itself when tool results are large — think full test
+suites, long logs, `git diff` over a big change — which is exactly the case
+sections 1-6 never tested and this fixture, being small, does not either.
+
+### Both failures were the same bug
+
+```
+change-port   grep -r "3461" --include="*.js" --include="*.json" --include="*.yaml"  -> no output
+              "No files contain 3461."                        (config/service.yaml contains it)
+
+failing-test  find . -name "*.test.js" -o -name "*.spec.js"                          -> no output
+              hit the 12-turn cap without answering           (it is a Python project)
+```
+
+Rule 11 says filter at the source and never dump output to find one line. Both
+failures guessed a narrow filter before knowing what was in the tree, got
+nothing back, and treated the empty result as proof of absence. One went looking
+for JavaScript tests in a Python project.
+
+Baseline, with no instruction to filter, ran `ls` first and got both right.
+
+This produced **rule 18** — an empty result is not an answer; widen the filter
+before concluding absence. It is the first rule in this skill derived from a
+measurement rather than an argument.
+
+### What this does not establish
+
+- **One model, and a small one.** Haiku 4.5 follows instructions less reliably
+  than Sonnet or Opus. A larger model may not over-filter, and would make the
+  1,700-token overhead proportionally smaller.
+- **One run, 12 tasks.** Enough to see a 2.3x gap and a repeated failure mode;
+  not enough for intervals.
+- **Small tool outputs.** The fixture is 15 small files. The regime where
+  beeline should win — large tool results — is not represented, which is the
+  most important gap and the obvious next fixture.
+- **Rule 18 is untested.** It was written from these failures and has not been
+  re-run against them.
+
 ## What this does not show
 
 1. **No arm actually called a tool.** The harness has no tool loop, so the "tools" set measures how each skill *describes* doing the work — not whether it filters output at the source. Rules 11–14 remain untested in a live session.

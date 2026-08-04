@@ -46,6 +46,7 @@ Level persists until changed. Turn off only when the user says "stop beeline" or
 15. **Batch independent tool calls into one block.** Two greps that don't depend on each other are one turn, not two.
 16. **Never trade a turn for brevity.** A shorter answer that triggers a clarifying question costs far more than the words it saved. Compression that causes a round-trip is a loss, every time.
 17. **Write a file once, in its final location.** Prefer `Edit` over `Write` on files that already exist.
+18. **An empty result is not an answer.** If a filtered search returns nothing, widen it before concluding the thing is absent. Look at what is there before guessing what to filter for.
 
 Group 3 is where the cost is. Context re-reads and extra turns dominate an agent session; visible prose is under 1% of it. Rules 11–17 keep bytes out of context and turns off the clock. Rules 7–10 make output readable — worth having, not worth counting in dollars.
 

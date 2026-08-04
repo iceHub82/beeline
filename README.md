@@ -25,7 +25,18 @@ Neither says much about where the tokens actually go. In a working session, assi
 
 All the prose written in that session — every word of it combined — cost **$0.96** of a $292 bill. A single extra round-trip cost $0.18, so five clarifying questions erase everything prose compression could ever save. Meanwhile 902 turns made tool calls and every one made exactly one call; batching a third of them would have saved roughly $48, fifty times the entire prose budget.
 
-That is why rules 11–17 (filter at source, batch independent calls, never trade a turn for brevity, write a file once) are the half that moves the bill, and rules 7–10 are the half that makes output readable. Both are worth having. Only one is worth measuring in dollars.
+That is why rules 11–18 (filter at source, batch independent calls, never trade a turn for brevity, write a file once, never read an empty result as an answer) are the half that moves the bill, and rules 7–10 are the half that makes output readable.
+
+**But an agent-loop benchmark says the skill currently loses on cost.** Twelve tool-using tasks against a real filesystem, `claude-haiku-4-5`:
+
+| | baseline | beeline |
+|---|---:|---:|
+| tasks completed | **12/12** | 10/12 |
+| total turns | 49 | **44** |
+| tool output into context | 14,473 chars | **6,160** |
+| **total tokens** | **64,432** | 147,813 |
+
+The discipline works — fewer turns, 57% less tool output — and a ~1,700-token `SKILL.md` re-sent on all 44 turns wipes the saving out three times over. On short tasks with small tool results, beeline costs more than it saves. It should pay for itself where tool output is large; that case is untested. Both failures came from filtering before looking, which is what rule 18 now addresses. Full numbers in [BENCHMARKS.md](BENCHMARKS.md) section 8.
 
 With that established, the single-turn benchmark: 240 calls against caveman's own set plus a tool-shaped set, `claude-sonnet-4.5`, system prompt cached, n=30 per cell.
 
