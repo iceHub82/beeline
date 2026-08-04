@@ -31,7 +31,8 @@ from datetime import datetime
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SKILL = os.path.join(REPO, "skills", "beeline", "SKILL.md")
-MAKE_FIXTURE = os.path.join(REPO, "benchmarks", "make-fixture.py")
+MAKE_SMALL = os.path.join(REPO, "benchmarks", "make-fixture.py")
+MAKE_BULK = os.path.join(REPO, "benchmarks", "make-fixture-bulk.py")
 
 # ---------------------------------------------------------------- tasks
 
@@ -132,6 +133,65 @@ TASKS = [
      file_contains("docker-compose.yml", "src.health")),
 ]
 
+
+# The bulk set. Same shape of question, buried in output large enough that a
+# naive command returns tens of thousands of characters and a filtered one
+# returns a line. This is the regime where tool discipline should pay for its
+# own system prompt; the small set showed it cannot when results are tiny.
+TASKS_BULK = [
+    ("bulk-error",
+     "logs/app.log records one genuine failure. Which service could not be reached?",
+     has("postgres")),
+
+    ("bulk-count-warn",
+     "How many WARN lines are in logs/app.log? Answer with the number only.",
+     has_number(75)),
+
+    ("bulk-slowest",
+     "What was the slowest request duration in logs/app.log, in ms? Number only.",
+     has_number(9187)),
+
+    ("bulk-slowest-path",
+     "Which path served the slowest request in logs/app.log?",
+     has("catalog")),
+
+    ("bulk-error-date",
+     "On which date did the ERROR in logs/app.log occur? Answer YYYY-MM-DD.",
+     has("2026-07-03")),
+
+    ("bulk-dup-func",
+     "One function is defined in two different modules under src/. Name the function.",
+     has("settle_ledger")),
+
+    ("bulk-failing-test",
+     "One test in this project fails. Name the failing test function.",
+     has("test_ledger_settles_to_zero")),
+
+    ("bulk-todo-count",
+     "How many files under src/ contain a TODO comment? Answer with the number only.",
+     has_number(4)),
+
+    ("bulk-secret",
+     "One file contains a hardcoded API token. Give its path.",
+     has("legacy_client.py")),
+
+    ("bulk-lock-mismatch",
+     "requirements.txt and requirements.lock disagree on exactly one package. Name it.",
+     has("redis")),
+
+    ("bulk-count-py",
+     "How many .py files are in this project? Answer with the number only.",
+     has_number(134)),
+
+    ("bulk-fix-secret",
+     "Remove the hardcoded token value from src/auth/legacy_client.py, replacing it "
+     "with os.environ.get('API_TOKEN'). Keep the file valid Python.",
+     both(file_lacks("src/auth/legacy_client.py", "sk-live-9f3a2b7c1d4e5f6a"),
+          file_contains("src/auth/legacy_client.py", "environ"))),
+]
+
+FIXTURES = {"small": (MAKE_SMALL, TASKS), "bulk": (MAKE_BULK, TASKS_BULK)}
+
 # ---------------------------------------------------------------- tools
 
 TOOLS = [
@@ -220,10 +280,10 @@ def call(url, key, model, messages, max_tokens, timeout=180):
         return json.loads(r.read().decode("utf-8"))
 
 
-def run_task(url, key, model, system, task, cap, use_docker, keep_text):
+def run_task(url, key, model, system, task, cap, use_docker, keep_text, maker):
     tid, prompt, check = task
     root = tempfile.mkdtemp(prefix="beeline-fx-")
-    subprocess.run([sys.executable, MAKE_FIXTURE, root], capture_output=True)
+    subprocess.run([sys.executable, maker, root], capture_output=True)
 
     messages = ([{"role": "system", "content": system}] if system else [])
     messages.append({"role": "user", "content":
@@ -323,21 +383,23 @@ def main():
     ap.add_argument("--no-docker", action="store_true",
                     help="run bash directly instead of in a container (unsafe on a shared host)")
     ap.add_argument("--keep-text", action="store_true")
+    ap.add_argument("--fixture", default="small", choices=["small", "bulk"])
     args = ap.parse_args()
 
     key = io.open(args.key_file, encoding="utf-8").read().strip()
     system = strip_frontmatter(io.open(SKILL, encoding="utf-8").read())
     arms = [("baseline", None), ("beeline", system)]
-    tasks = TASKS[:args.limit] if args.limit else TASKS
+    maker, taskset = FIXTURES[args.fixture]
+    tasks = taskset[:args.limit] if args.limit else taskset
 
-    print("model=%s tasks=%d arms=%d cap=%d docker=%s"
-          % (args.model, len(tasks), len(arms), args.cap, not args.no_docker))
+    print("model=%s fixture=%s tasks=%d arms=%d cap=%d docker=%s"
+          % (args.model, args.fixture, len(tasks), len(arms), args.cap, not args.no_docker))
 
     records = []
     for task in tasks:
         for arm, sysprompt in arms:
             r = run_task(args.base_url, key, args.model, sysprompt, task,
-                         args.cap, not args.no_docker, args.keep_text)
+                         args.cap, not args.no_docker, args.keep_text, maker)
             if "error" in r:
                 print("  %-18s %-9s ERROR %s" % (task[0], arm, r["error"][:80]))
                 continue
@@ -351,9 +413,10 @@ def main():
     outdir = os.path.join(REPO, "benchmarks", "results")
     if not os.path.isdir(outdir):
         os.makedirs(outdir)
-    path = os.path.join(outdir, "agentloop-%s.json" % stamp)
+    path = os.path.join(outdir, "agentloop-%s-%s.json" % (args.fixture, stamp))
     io.open(path, "w", encoding="utf-8").write(json.dumps(
-        {"model": args.model, "cap": args.cap, "records": records}, indent=1))
+        {"model": args.model, "fixture": args.fixture, "cap": args.cap,
+         "records": records}, indent=1))
 
     print("\n%-10s %7s %9s %11s %10s %8s" %
           ("arm", "tasks", "success", "med turns", "med tokens", "tool ch"))
