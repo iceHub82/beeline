@@ -326,6 +326,61 @@ This produced **rule 18** — an empty result is not an answer; widen the filter
 before concluding absence. It is the first rule in this skill derived from a
 measurement rather than an argument.
 
+### The bulk fixture — the same benchmark where output is large
+
+The small fixture had tool results averaging ~140 characters against 1,700
+tokens of system prompt. Filtering cannot win there; that measures overhead, not
+discipline. `make-fixture-bulk.py` builds the other regime: a 30,077-line log
+with one ERROR at line 19,400, 134 `.py` files across 120 modules with one
+function defined twice, a 60-test suite with one failure, one hardcoded token.
+Same 12-task shape, same deterministic checkers, same harness.
+
+| | small | bulk |
+|---|---:|---:|
+| baseline tokens | 64,432 | 249,536 |
+| beeline tokens | 147,813 | **216,750** |
+| difference | **+129%** | **−13%** |
+| tool output | −57% | **−67%** |
+| turns | 44 vs 49 | 55 vs 62 |
+| success | 10/12 vs 12/12 | **10/12 vs 10/12** |
+
+Beeline goes from costing 2.3x to saving 13%, at equal success. Both arms failed
+the same two tasks, so those are hard for Haiku rather than a defect in the skill.
+
+**Per task the mechanism is unambiguous:**
+
+| task | baseline → beeline | |
+|---|---:|---|
+| bulk-slowest-path | 74,835 → 13,988 | **−81%** |
+| bulk-slowest | 52,213 → 13,950 | **−73%** |
+| bulk-error-date | 20,379 → 6,028 | **−70%** |
+| bulk-error | 34,234 → 26,886 | −21% |
+| bulk-fix-secret | 4,298 → 9,441 | +120% |
+| bulk-lock-mismatch | 1,893 → 6,185 | +227% |
+| bulk-count-py | 1,618 → 5,994 | +270% |
+| bulk-count-warn | 1,616 → 5,992 | +271% |
+| bulk-todo-count | 1,660 → 9,928 | +498% |
+
+Four tasks saved 120,809 tokens. Eight cost 88,023. Net −32,786.
+
+### The break-even line
+
+Overhead is fixed: ~1,700 tokens of `SKILL.md` per turn. Saving scales with how
+much output a naive command would pull into context. So:
+
+**Below roughly one system-prompt's worth of tool output per turn, beeline is
+pure cost. Above it, it wins — by 81% on the task where the naive approach drags
+a 30,000-line log into context.**
+
+That is the honest claim, and it is neither of the two this repo made before.
+Not "−63% output tokens", which measured the wrong bucket. Not "2.3x more
+expensive", which measured one regime and called it the answer. It is
+conditional on the workload, and the condition now has a number.
+
+A practical consequence: on a codebase of small files and quick greps, the skill
+costs you money. On log triage, test suites, large diffs and wide searches, it
+pays for itself several times over.
+
 ### What this does not establish
 
 - **One model, and a small one.** Haiku 4.5 follows instructions less reliably
