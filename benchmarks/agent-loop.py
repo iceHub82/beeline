@@ -235,6 +235,7 @@ def run_task(url, key, model, system, task, cap, use_docker, keep_text):
     tool_chars = 0
     tool_calls = 0
     answer = ""
+    trace = []          # what it actually ran, so a failure is diagnosable
     capped = False
     t0 = time.time()
 
@@ -275,6 +276,11 @@ def run_task(url, key, model, system, task, cap, use_docker, keep_text):
                 args = {}
             out = exec_tool(fn.get("name") or "", args, root, use_docker)
             out = out[:MAX_RESULT]
+            if keep_text:
+                trace.append({"tool": fn.get("name"),
+                              "arg": (args.get("command") or args.get("path") or "")[:200],
+                              "out_chars": len(out),
+                              "out_head": out[:160]})
             tool_chars += len(out)
             messages.append({"role": "tool", "tool_call_id": c.get("id"),
                              "content": out})
@@ -292,6 +298,7 @@ def run_task(url, key, model, system, task, cap, use_docker, keep_text):
            "seconds": round(time.time() - t0, 1)}
     if keep_text:
         rec["answer"] = answer[:2000]
+        rec["trace"] = trace
     shutil.rmtree(root, ignore_errors=True)
     return rec
 
